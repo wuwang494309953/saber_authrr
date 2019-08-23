@@ -1,0 +1,40 @@
+<template>
+  <div style="height: 100%;">
+    <el-menu
+      default-active="2"
+      :collapse="isCollapse"
+      router
+      class="el-menu-vertical-demo"
+      background-color="#304156"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      style="height: 100%;">
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>导航一</span>
+        </template>
+        <el-menu-item index="/t1">T1</el-menu-item>
+        <el-menu-item index="/t2">T2</el-menu-item>
+      </el-submenu>
+    </el-menu>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    isCollapse: Boolean
+  },
+  name: 'Nav',
+  methods: {
+    
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+.el-menu-vertical-demo:not(.el-menu--collapse) 
+  width: 200px
+  min-height: 400px
+</style>
