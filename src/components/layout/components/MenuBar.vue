@@ -5,7 +5,8 @@
         v-for="item in visitedViews"
         :key="item.path"
         :class="_isActive(item)?'active':''"
-        :effect="_isActive(item)?'dark ':'plain'"
+        :effect="_isActive(item)?'dark':'plain'"
+        @close="_delTags(item)"
         type="success"
         size="medium"
         closable 
@@ -46,12 +47,26 @@ export default {
       return route.path === this.$route.path
     },
     _addTags() {
-      console.log(this.$route)
       const { name } = this.$route
       if (name) {
         this.$store.dispatch('tagsView/addView', this.$route)
       }
       return false
+    },
+    _delTags(view) {
+      this.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
+        if (this._isActive(view)) {
+          this.toLastView(visitedViews, view)
+        }
+      })
+    },
+    toLastView(visitedViews) {
+      const latestView = visitedViews.slice(-1)[0]
+      if (latestView) {
+        this.$router.push(latestView)
+      } else {
+        this.$router.push('/')
+      }
     }
   }
 }
@@ -66,15 +81,8 @@ export default {
       .tag
         margin: 3px 4px
       .active
-        :before 
-          content: ''
-          background: #fff
-          display: inline-block
-          width: 8px
-          height: 8px
-          border-radius: 50%
-          position: relative
-          margin-right: 2px
+        span
+          color: white
         
   a
     text-decoration: none

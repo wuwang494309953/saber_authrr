@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%;">
     <el-menu
-      default-active="2"
+      :default-active="activeMenu"
       :collapse="isCollapse"
       router
       class="el-menu-vertical-demo"
@@ -14,8 +14,8 @@
           <i class="el-icon-location"></i>
           <span>导航一</span>
         </template>
-        <el-menu-item index="/t1">T1</el-menu-item>
-        <el-menu-item index="/t2">T2</el-menu-item>
+        <el-menu-item index="/t1/t1">T1</el-menu-item>
+        <el-menu-item index="/t2/t2">T2</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -27,6 +27,17 @@ export default {
     isCollapse: Boolean
   },
   name: 'Nav',
+  computed: {
+    activeMenu() {
+      const route = this.$route
+      const { meta, path } = route
+      // if set path, the sidebar will highlight the path you set
+      if (meta.activeMenu) {
+        return meta.activeMenu
+      }
+      return path
+    }
+  },
   methods: {
     
   }
