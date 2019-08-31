@@ -22,7 +22,6 @@
         </el-main>  
       </el-container>
     </el-container>
-    <router-view/>
   </div>
 </template>
 

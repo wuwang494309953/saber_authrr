@@ -21,6 +21,20 @@ export default new Router({
       meta: { title: '首页' }
     },
     {
+      path: '/gateway',
+      name: 'Gateway',
+      component: Layout,
+      redirect: '/gateway/index',
+      children: [
+        {
+          path: 'index',
+          name: 'Gateway',
+          component: () => import('@/components/gateway/index'),
+          meta: { title: '网关配置' }
+        }
+      ]
+    },
+    {
       path: '/t1',
       name: 'T1',
       component: Layout,
