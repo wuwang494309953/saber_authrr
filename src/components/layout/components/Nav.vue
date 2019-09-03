@@ -11,11 +11,12 @@
       style="height: 100%;">
       <el-submenu index="1">
         <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>网关配置</span>
+          <i class="el-icon-open"></i>
+          <span>App配置</span>
         </template>
-        <el-menu-item index="/gateway/index">网关配置</el-menu-item>
-        <el-menu-item index="/t2/t2">T2</el-menu-item>
+        <el-menu-item index="/gateway/index">App信息</el-menu-item>
+        <el-menu-item index="/gateway/gateway">网关配置</el-menu-item>
+        <el-menu-item index="/gateway/shiro">Shiro配置</el-menu-item>
       </el-submenu>
       <el-submenu index="1">
         <template slot="title">

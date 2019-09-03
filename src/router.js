@@ -28,9 +28,21 @@ export default new Router({
       children: [
         {
           path: 'index',
+          name: 'AppInfo',
+          component: () => import('@/components/appinfo/index'),
+          meta: { title: 'App信息' }
+        },
+        {
+          path: 'gateway',
           name: 'Gateway',
           component: () => import('@/components/gateway/index'),
           meta: { title: '网关配置' }
+        },
+        {
+          path: 'shiro',
+          name: 'Shrio',
+          component: () => import('@/components/appshiro/index'),
+          meta: { title: 'Shiro配置' }
         }
       ]
     },
