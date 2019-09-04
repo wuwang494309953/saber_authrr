@@ -28,6 +28,7 @@
       <Table
         :tableLoading="tableLoading"
         :tableData="tableData"
+        :total="total"
         @submit="_submit"
         ref="table"
       >
@@ -44,7 +45,8 @@ export default {
     return {
       isEdit: false,
       tableLoading: false,
-      tableData: {},
+      tableData: [],
+      total: 0,
       queryParams: {
         appName: '',
         appDesc: '',
@@ -70,8 +72,8 @@ export default {
       this.tableLoading = true
       getAppInfos(this.queryParams).then(res => {
         if (res.code == 0) {
-          // this.tableData = res.data
-          console.log(res.data)
+          this.tableData = res.data.data
+          this.total = res.data.total
         }
         this.tableLoading = false
       })

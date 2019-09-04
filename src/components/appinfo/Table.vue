@@ -30,6 +30,29 @@
             <el-tag size="medium" :type="scope.row.status | statusTag">{{ scope.row.status | statusType }}</el-tag>
           </template>
         </el-table-column>
+        <el-table-column
+          prop="createTime"
+          :formatter="_dateFormatter"
+          label="创建日期">
+        </el-table-column>
+        <el-table-column
+          prop="updateTime"
+          :formatter="_dateFormatter"
+          label="更新日期">
+        </el-table-column>
+
+        <el-table-column label="操作" width="150">
+          <template slot-scope="scope">
+            <el-button
+            size="mini"
+            type="primary"
+            @click="_handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button
+            size="mini"
+            type="danger"
+            @click="_handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -60,13 +83,12 @@
 </template>
 
 <script>
+import {format} from '@/util/DateUtil.js'
 export default {
   props: {
     tableLoading: Boolean,
-    tableData: {
-      data: Array,
-      total: Number
-    }
+    tableData: Array,
+    total: Number
   },
   data () {
     return {
@@ -88,6 +110,16 @@ export default {
       }
       this.dialogFormVisible = true
     },
+    _dateFormatter (row, column, cellValue) {
+      return format(new Date(cellValue), 'yyyy-MM-dd hh:mm:ss')
+    },
+    _handleEdit (index, row) {
+      this.form = row
+      this.dialogFormVisible = true
+    },
+    _handleDelete (index, row) {
+
+    }
   },
   filters: {
     statusType (value) {
