@@ -34,7 +34,7 @@ export default new Router({
         },
         {
           path: 'gateway',
-          name: 'Gateway',
+          name: 'Setting',
           component: () => import('@/components/gateway/index'),
           meta: { title: '网关配置' }
         },
