@@ -5,7 +5,20 @@
           <el-col :span="18">
             <el-form :inline="true">
               <el-form-item label="App名称:">
-                  <el-input  placeholder="App名称"></el-input>
+                <el-select
+                  v-model="queryParams.appId"
+                  filterable
+                  remote
+                  :remote-method="_remoteSelect"
+                  @focus="_remoteSelectFocus"
+                  @change="_getGateWays">
+                  <el-option
+                    v-for="item in appOptions"
+                    :key="item.appId"
+                    :label="item.appName"
+                    :value="item.appId">
+                  </el-option>
+                </el-select>
               </el-form-item>
               </el-form>
           </el-col>
@@ -20,6 +33,9 @@
         :total="total"
         :options="appOptions"
         @submit="_submit"
+        @edit="_edit"
+        @del="_del"
+        @refresh="_refresh"
         @remoteSelect="_remoteSelect"
         ref="table"
       >
@@ -40,6 +56,7 @@ export default {
       total: 0,
       appOptions: [],
       queryParams: {
+        appId: '',
         pageNum: 0,
         pageSize: 10,
         sortKey: '',
@@ -61,6 +78,19 @@ export default {
         }
       })
     },
+    _edit (row) {
+      this.appOptions.push(row)
+    },
+    _del (row) {
+      delGateWay(row.gatewayId).then(res => {
+        if (res.code == 0) {
+          this.$message.success(res.msg)
+          this._getGateWays()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     _getGateWays () {
       this.tableLoading = true
       getGateWays(this.queryParams).then(res => {
@@ -71,6 +101,9 @@ export default {
         this.tableLoading = false
       })
     },
+    _remoteSelectFocus () {
+      this._remoteSelect()
+    },
     _remoteSelect (query) {
       let param = {
         appName: query
@@ -78,6 +111,13 @@ export default {
       getAppInfos(param).then(res => {
         this.appOptions = res.data.data
       })
+    },
+    _refresh (pageParam) {
+      this.queryParams.sortKey = pageParam.sortKey
+      this.queryParams.sortValue = pageParam.sortValue
+      this.queryParams.pageNum = pageParam.pageNum
+      this.queryParams.pageSize = pageParam.pageSize
+      this._getGateWays()
     }
   },
   created () {

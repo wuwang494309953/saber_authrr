@@ -7,8 +7,8 @@
         stripe>
         <el-table-column type="index"/>
         <el-table-column
-          prop="appId"
-          label="appId"
+          prop="appName"
+          label="App名"
         >
         </el-table-column>
         <el-table-column
@@ -46,7 +46,20 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <div style="margin-top: 15px;">
+        <el-pagination
+          @size-change="_handleSizeChange"
+          @current-change="_handleCurrentChange"
+          :current-page="pageParam.pageNum"
+          :page-sizes="[5, 10, 20, 50]"
+          :page-size="10"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
+
     <el-dialog
       title="网关路由配置"
       :visible.sync="dialogFormVisible"
@@ -103,7 +116,13 @@ export default {
     return {
       dialogFormVisible: false,
       formLabelWidth: '120px',
-      form: {}
+      form: {},
+      pageParam: {
+        pageNum: 1,
+        pageSize: 10,
+        sortKey: '',
+        sortValue: ''
+      }
     }
   },
   methods: {
@@ -118,15 +137,30 @@ export default {
     _handleEdit (index, row) {
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogFormVisible = true
+      this.$emit('edit', this.form)
     },
     _handleDelete(index, row) {
-
+      this.$confirm('此操作将永久删除该配置, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$emit('del', JSON.parse(JSON.stringify(row)))
+      })
     },
     _remoteSelectFocus () {
       this._remoteSelect()
     },
     _remoteSelect (query) {
       this.$emit('remoteSelect', query)
+    },
+    _handleSizeChange(size) {
+      this.pageParam.pageSize = size
+      this.$emit('refresh', this.pageParam)
+    },
+    _handleCurrentChange(index) {
+      this.pageParam.pageNum = index
+      this.$emit('refresh', this.pageParam)
     },
     _dateFormatter (row, column, cellValue) {
       return format(new Date(cellValue), 'yyyy-MM-dd hh:mm:ss')
