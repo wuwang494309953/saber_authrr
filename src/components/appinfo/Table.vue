@@ -4,8 +4,7 @@
       <el-table
         :data="tableData"
         v-loading="tableLoading"
-        stripe
-      >
+        stripe>
         <el-table-column type="index"/>
         <el-table-column
           prop="appName"
@@ -54,6 +53,18 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <div style="margin-top: 15px;">
+          <el-pagination
+            @size-change="_handleSizeChange"
+            @current-change="_handleCurrentChange"
+            :current-page="pageParam.pageNum"
+            :page-sizes="[5, 10, 20, 50]"
+            :page-size="10"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+          </el-pagination>
+      </div>
     </div>
 
     <el-dialog
@@ -94,7 +105,13 @@ export default {
     return {
       dialogFormVisible: false,
       formLabelWidth: '120px',
-      form: {}
+      form: {},
+      pageParam: {
+        pageNum: 1,
+        pageSize: 10,
+        sortKey: '',
+        sortValue: ''
+      }
     }
   },
   methods: {
@@ -114,11 +131,26 @@ export default {
       return format(new Date(cellValue), 'yyyy-MM-dd hh:mm:ss')
     },
     _handleEdit (index, row) {
-      this.form = row
+      this.form = JSON.parse(JSON.stringify(row))
       this.dialogFormVisible = true
     },
     _handleDelete (index, row) {
-
+      
+      this.$confirm('此操作将使该App失效, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$emit('del', JSON.parse(JSON.stringify(row)))
+      })
+    },
+    _handleSizeChange(size) {
+      this.pageParam.pageSize = size
+      this.$emit('refresh', this.pageParam)
+    },
+    _handleCurrentChange(index) {
+      this.pageParam.pageNum = index
+      this.$emit('refresh', this.pageParam)
     }
   },
   filters: {

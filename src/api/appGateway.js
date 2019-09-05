@@ -1,8 +1,8 @@
 import axios from 'axios'
 import Qs from 'qs'
 
-export function getAppInfos (params) {
-  const url = '/app/info/list'
+export function getGateWays (params) {
+  const url = '/gateway/setting/list'
 
   // const data = {}
   return axios.get(url, {
@@ -14,8 +14,8 @@ export function getAppInfos (params) {
   })
 }
 
-export function saveAppInfo (params) {
-  let url = '/app/info/save'
+export function saveGateway (params) {
+  let url = '/gateway/setting/save'
   return axios({
     method: 'post',
     url: url,
@@ -33,8 +33,8 @@ export function saveAppInfo (params) {
   })
 }
 
-export function delAppInfo (appId) {
-  const url = '/app/info/del/' + appId
+export function delGateWay (appId) {
+  const url = '/gateway/setting/del/' + appId
 
   // const data = {}
   return axios.post(url).then((res) => {

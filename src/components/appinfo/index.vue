@@ -5,13 +5,13 @@
           <el-col :span="18">
             <el-form :inline="true" :model="queryParams">
               <el-form-item label="App名称:">
-                  <el-input v-model="queryParams.appName" placeholder="App名称" @keyup.enter.native="_getAppInfos"></el-input>
+                  <el-input v-model="queryParams.appName" placeholder="App名称" @keyup.enter.native="_getAppInfos" @blur="_getAppInfos"></el-input>
               </el-form-item>
               <el-form-item label="描述:">
-                  <el-input v-model="queryParams.appDesc" placeholder="描述" @keyup.enter.native="_getAppInfos"></el-input>
+                  <el-input v-model="queryParams.appDesc" placeholder="描述" @keyup.enter.native="_getAppInfos" @blur="_getAppInfos"></el-input>
               </el-form-item>
               <el-form-item label="状态:">
-                <el-radio-group v-model="queryParams.status">
+                <el-radio-group v-model="queryParams.status" @change="_getAppInfos">
                   <el-radio-button label="1">有效</el-radio-button>
                   <el-radio-button label="0">无效</el-radio-button>
                 </el-radio-group>
@@ -30,6 +30,8 @@
         :tableData="tableData"
         :total="total"
         @submit="_submit"
+        @del="_del"
+        @refresh="_refresh"
         ref="table"
       >
       </Table>
@@ -38,7 +40,7 @@
 </template>
 
 <script>
-import {getAppInfos, saveAppInfo} from '@/api/appInfo.js'
+import {getAppInfos, saveAppInfo, delAppInfo} from '@/api/appInfo.js'
 import Table from './Table'
 export default {
   data () {
@@ -50,7 +52,11 @@ export default {
       queryParams: {
         appName: '',
         appDesc: '',
-        status: 1
+        status: 1,
+        pageNum: 0,
+        pageSize: 10,
+        sortKey: '',
+        sortValue: ''
       }
     }
   },
@@ -68,6 +74,16 @@ export default {
         }
       })
     },
+    _del (row) {
+      delAppInfo(row.appId).then(res => {
+        if (res.code == 0) {
+          this.$message.success(res.msg)
+          this._getAppInfos()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     _getAppInfos () {
       this.tableLoading = true
       getAppInfos(this.queryParams).then(res => {
@@ -77,6 +93,13 @@ export default {
         }
         this.tableLoading = false
       })
+    },
+    _refresh (pageParam) {
+      this.queryParams.sortKey = pageParam.sortKey
+      this.queryParams.sortValue = pageParam.sortValue
+      this.queryParams.pageNum = pageParam.pageNum
+      this.queryParams.pageSize = pageParam.pageSize
+      this._getAppInfos()
     }
   },
   created () {
