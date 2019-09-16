@@ -79,7 +79,7 @@ export default {
       })
     },
     _edit (row) {
-      this.appOptions.push(row)
+      this._remoteSelect()
     },
     _del (row) {
       delGateWay(row.gatewayId).then(res => {
