@@ -10,7 +10,8 @@
                 filterable
                 remote
                 :remote-method="_remoteSelect"
-                @focus="_remoteSelectFocus">
+                @focus="_remoteSelectFocus"
+                @change="_getShiros">
                 <el-option
                   v-for="item in appOptions"
                   :key="item.appId"

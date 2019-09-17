@@ -47,6 +47,38 @@ export default new Router({
       ]
     },
     {
+      path: '/auth',
+      name: 'Auth',
+      component: Layout,
+      redirect: '/auth/user',
+      children: [
+        {
+          path: 'user',
+          name: 'User',
+          component: () => import('@/components/user/index'),
+          meta: { title: '用户管理' }
+        },
+        {
+          path: 'role',
+          name: 'Role',
+          component: () => import('@/components/role/index'),
+          meta: { title: '角色管理' }
+        },
+        {
+          path: 'permission',
+          name: 'Permission',
+          component: () => import('@/components/permission/index'),
+          meta: { title: '权限管理' }
+        },
+        {
+          path: 'resource',
+          name: 'Resource',
+          component: () => import('@/components/resource/index'),
+          meta: { title: '资源管理' }
+        }
+      ]
+    },
+    {
       path: '/t1',
       name: 'T1',
       component: Layout,

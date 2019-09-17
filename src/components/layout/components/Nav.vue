@@ -18,13 +18,15 @@
         <el-menu-item index="/gateway/gateway">网关配置</el-menu-item>
         <el-menu-item index="/gateway/shiro">Shiro配置</el-menu-item>
       </el-submenu>
-      <el-submenu index="1">
+      <el-submenu index="2">
         <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>导航一</span>
+          <i class="el-icon-key"></i>
+          <span>权限管理</span>
         </template>
-        <el-menu-item index="/t1/t1">T1</el-menu-item>
-        <el-menu-item index="/t2/t2">T2</el-menu-item>
+        <el-menu-item index="/auth/user">用户管理</el-menu-item>
+        <el-menu-item index="/auth/role">角色管理</el-menu-item>
+        <el-menu-item index="/auth/permission">权限管理</el-menu-item>
+        <el-menu-item index="/auth/resource">资源管理</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
