@@ -20,27 +20,26 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            </el-form>
+          </el-form>
         </el-col>
         <el-col :span="6" style="text-align: right;">
             <el-button type="primary" round style="margin-left:30px;" @click="_handleAdd">新增Shiro配置</el-button>
         </el-col>
       </el-row>
-
-      <Table
-        ref="table"
-        :tableLoading="tableLoading"
-        :tableData="tableData"
-        :total="total"
-        :options="appOptions"
-        @submit="_submit"
-        @remoteSelect="_remoteSelect"
-        @edit="_edit"
-        @del="_del"
-        @refresh="_refresh">
-      </Table>
-
     </div>
+
+    <Table
+      ref="table"
+      :tableLoading="tableLoading"
+      :tableData="tableData"
+      :total="total"
+      :options="appOptions"
+      @submit="_submit"
+      @remoteSelect="_remoteSelect"
+      @edit="_edit"
+      @del="_del"
+      @refresh="_refresh">
+    </Table>
   </el-card>
 </template>
 

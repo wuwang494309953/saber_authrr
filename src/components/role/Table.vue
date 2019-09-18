@@ -12,16 +12,31 @@
         >
         </el-table-column>
         <el-table-column
-          prop="shiroPath"
-          label="Shiro路径"
+          prop="roleName"
+          label="角色名"
         >
         </el-table-column>
         <el-table-column
-          prop="shiroAuth"
-          label="权限配置"
+          prop="remark"
+          label="备注"
         >
         </el-table-column>
-  
+        <el-table-column
+          prop="type"
+          label="角色类型"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.type == 2 ? '管理员' : '普通用户' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="status"
+          label="状态"
+        >
+          <template slot-scope="scope">
+            <el-tag size="medium" :type="scope.row.status | statusTag">{{ scope.row.status | statusType }}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="createTime"
           :formatter="_dateFormatter"
@@ -59,9 +74,9 @@
         </el-pagination>
       </div>
     </div>
-
+    
     <el-dialog
-      title="Shiro配置"
+      title="角色信息"
       :visible.sync="dialogFormVisible">
       <el-form :model="form" style="padding-right:30%;">
         <el-form-item label="App" :label-width="formLabelWidth">
@@ -79,11 +94,23 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Shiro路径" :label-width="formLabelWidth">
-          <el-input v-model="form.shiroPath" placeholder="请输入路径"></el-input>
+        <el-form-item label="角色名" :label-width="formLabelWidth">
+          <el-input v-model="form.roleName" placeholder="请输入角色名"></el-input>
         </el-form-item>
-        <el-form-item label="权限配置" :label-width="formLabelWidth">
-          <el-input v-model="form.shiroAuth" placeholder="请输入权限"></el-input>
+        <el-form-item label="备注" :label-width="formLabelWidth">
+          <el-input v-model="form.remark" placeholder="请输入备注"></el-input>
+        </el-form-item>
+        <el-form-item label="状态" :label-width="formLabelWidth">
+          <el-radio-group v-model="form.status">
+            <el-radio-button label="1">有效</el-radio-button>
+            <el-radio-button label="0">无效</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="角色类型" :label-width="formLabelWidth">
+          <el-radio-group v-model="form.type">
+            <el-radio-button label="1">普通用户</el-radio-button>
+            <el-radio-button label="2">管理员</el-radio-button>
+          </el-radio-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -130,8 +157,9 @@ export default {
       this.dialogFormVisible = true
       this.$emit('edit', this.form)
     },
-    _handleDelete(index, row) {
-      this.$confirm('此操作将永久删除该配置, 是否继续?', '提示', {
+    _handleDelete (index, row) {
+      
+      this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -155,6 +183,22 @@ export default {
     },
     _dateFormatter (row, column, cellValue) {
       return format(new Date(cellValue), 'yyyy-MM-dd hh:mm:ss')
+    }
+  },
+  filters: {
+    statusType (value) {
+      if (value >= 0 && value < 3) {
+          let types = ['无效', '有效']
+          return types[value]
+      } else {
+          return '状态错误'
+      }
+    },
+    statusTag (value) {
+      if (value >= 0 && value < 3) {
+          let types = ['warning', '']
+          return types[value]
+      }
     }
   }
 }
