@@ -8,6 +8,8 @@
           <el-transfer 
             v-model="value"
             :data="data"
+            :titles="titles"
+            :props="transProps"
             filterable
           ></el-transfer>
         </el-tab-pane>
@@ -25,16 +27,23 @@
 export default {
   props: {
     tabs: Array,
-    data: Array
+    data: Array,
+    titles: Array,
+    transProps: Object
   },
   data () {
     return {
       dialogFormVisible: false,
-      value: []
+      value: [],
+      form: {
+        id: '',
+        mappingId: ''
+      }
     }
   },
   methods: {
-    _handleAdd () {
+    _handleAdd (id) {
+      this.form.id = id
       this.dialogFormVisible = true
     },
     _handleEdit (val) {
@@ -44,7 +53,8 @@ export default {
       this.$emit('handleTab', tab)
     },
     _submit () {
-      this.$emit('submit', this.value)
+      this.form.mappingId = this.value.join(',')
+      this.$emit('submit', this.form)
       this.dialogFormVisible = false
     }
   }

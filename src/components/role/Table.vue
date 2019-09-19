@@ -17,6 +17,11 @@
         >
         </el-table-column>
         <el-table-column
+          prop="roleValue"
+          label="角色值"
+        >
+        </el-table-column>
+        <el-table-column
           prop="remark"
           label="备注"
         >
@@ -48,12 +53,16 @@
           label="更新日期">
         </el-table-column>
 
-        <el-table-column label="操作" width="150">
+        <el-table-column label="操作" width="250">
           <template slot-scope="scope">
             <el-button
             size="mini"
             type="primary"
             @click="_handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button
+            size="mini"
+            type="success"
+            @click="_handleAuth(scope.$index, scope.row)">权限管理</el-button>
             <el-button
             size="mini"
             type="danger"
@@ -96,6 +105,9 @@
         </el-form-item>
         <el-form-item label="角色名" :label-width="formLabelWidth">
           <el-input v-model="form.roleName" placeholder="请输入角色名"></el-input>
+        </el-form-item>
+        <el-form-item label="角色值" :label-width="formLabelWidth">
+          <el-input v-model="form.roleValue" placeholder="请输入角色值"></el-input>
         </el-form-item>
         <el-form-item label="备注" :label-width="formLabelWidth">
           <el-input v-model="form.remark" placeholder="请输入备注"></el-input>
@@ -166,6 +178,9 @@ export default {
       }).then(() => {
         this.$emit('del', JSON.parse(JSON.stringify(row)))
       })
+    },
+    _handleAuth (index, row) {
+      this.$emit('editAuth', row)
     },
     _remoteSelectFocus () {
       this._remoteSelect()

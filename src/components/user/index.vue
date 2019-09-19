@@ -59,7 +59,12 @@
 
     <Transfer
       :tabs="tabs"
-      :data="transferRoles"
+      :data="authRoles"
+      :transProps="{
+        key: 'roleId',
+        label: 'roleName'
+      }"
+      :titles = "['未拥有角色', '已拥有角色']"
       @submit="_submitRoleMapping"
       ref="transfer"></Transfer>
   </el-card>
@@ -71,6 +76,7 @@ import Transfer from '@/components/auth/Transfer'
 import {getAppInfos} from '@/api/appInfo.js'
 import { getUsers, saveUser, delUser } from '@/api/user.js'
 import { getRolesWithAppIdAndUserId } from '@/api/role.js'
+import { saveUserRole } from '@/api/userRole.js'
 export default {
   data () {
     return {
@@ -90,19 +96,7 @@ export default {
       authRoles: []
     }
   },
-  computed: {
-    transferRoles () {
-      const data = []
-      this.authRoles.forEach(item => {
-        data.push({
-          key: item.roleId,
-          label: item.roleName,
-          disabled: false
-        })
-      })
-      return data
-    }
-  },
+  
   methods: {
     _handleAdd () {
       this.$refs.table._handleAdd()
@@ -113,7 +107,7 @@ export default {
           this._getUsers()
           this.$message.success(res.msg)
         } else {
-          this.$message.error('保存出现了一个问题。')
+          this.$message.error(res.msg)
         }
       })
     },
@@ -150,8 +144,7 @@ export default {
     _handleRole (row) {
       this._getAuthRoles(row.appId)
       this._getOwnRoles(row.appId, row.userId)
-      this.$refs.transfer._handleAdd()
-      
+      this.$refs.transfer._handleAdd(row.userId)
     },
     _getAuthRoles (appId) {
       getRolesWithAppIdAndUserId(appId).then(res => {
@@ -175,8 +168,18 @@ export default {
         }
       })
     },
-    _submitRoleMapping (val) {
-      console.log(val)
+    _submitRoleMapping (form) {
+      saveUserRole({
+        userId: form.id,
+        roleIds: form.mappingId
+      }).then(res => {
+        if (res.code == 0) {
+          this._getUsers()
+          this.$message.success(res.msg)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
     _remoteSelectFocus () {
       this._remoteSelect()

@@ -53,8 +53,14 @@
       @edit="_edit"
       @del="_del"
       @refresh="_refresh"
+      @editAuth="_editAuth"
       @remoteSelect="_remoteSelect">
     </Table>
+
+    <Transfer
+      :tabs="tabs"
+
+      ref="transfer"></Transfer>
   </el-card>
 </template>
 
@@ -62,6 +68,7 @@
 import {getAppInfos} from '@/api/appInfo.js'
 import { getRoles, saveRole, delRole } from '@/api/role.js'
 import Table from './Table'
+import Transfer from '@/components/auth/Transfer'
 export default {
   data () {
     return {
@@ -74,7 +81,15 @@ export default {
         pageSize: 10,
         sortKey: '',
         sortValue: ''
-      }
+      },
+      tabs: [
+        {
+          label: "权限点管理"
+        },
+        {
+          label: "资源管理"
+        }
+      ],
     }
   },
   methods: {
@@ -131,13 +146,18 @@ export default {
       this.queryParams.pageNum = pageParam.pageNum
       this.queryParams.pageSize = pageParam.pageSize
       this._getShiros()
+    },
+    _editAuth (row) {
+      console.log(row)
+      this.$refs.transfer._handleAdd(row.roleId)
     }
   },
   created () {
     this._getRoles()
   },
   components: {
-    Table
+    Table,
+    Transfer
   }
 }
 </script>
