@@ -58,6 +58,18 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <div style="margin-top: 15px;">
+        <el-pagination
+          @size-change="_handleSizeChange"
+          @current-change="_handleCurrentChange"
+          :current-page="pageParam.pageNum"
+          :page-sizes="[5, 10, 20, 50]"
+          :page-size="10"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
 
     <el-dialog
@@ -139,6 +151,29 @@ export default {
     _submit () {
       this.$emit('submit', this.form)
       this.dialogFormVisible = false
+    },
+    _handleEdit (index, row) {
+      this.form = JSON.parse(JSON.stringify(row))
+      this.dialogFormVisible = true
+      this.$emit('edit', this.form)
+    },
+    _handleDelete (index, row) {
+      
+      this.$confirm('此操作将永久删除该权限点, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$emit('del', JSON.parse(JSON.stringify(row)))
+      })
+    },
+    _handleSizeChange(size) {
+      this.pageParam.pageSize = size
+      this.$emit('refresh', this.pageParam)
+    },
+    _handleCurrentChange(index) {
+      this.pageParam.pageNum = index
+      this.$emit('refresh', this.pageParam)
     },
     _dateFormatter (row, column, cellValue) {
       return format(new Date(cellValue), 'yyyy-MM-dd hh:mm:ss')

@@ -53,15 +53,24 @@
       @del="_del"
       @edit="_edit"
       @remoteSelect="_remoteSelect"
+      @editRole="_handleRole"
       ref="table">
     </Table>
+
+    <Transfer
+      :tabs="tabs"
+      :data="transferRoles"
+      @submit="_submitRoleMapping"
+      ref="transfer"></Transfer>
   </el-card>
 </template>
 
 <script>
 import Table from './Table'
+import Transfer from '@/components/auth/Transfer'
 import {getAppInfos} from '@/api/appInfo.js'
 import { getUsers, saveUser, delUser } from '@/api/user.js'
+import { getRolesWithAppIdAndUserId } from '@/api/role.js'
 export default {
   data () {
     return {
@@ -72,7 +81,26 @@ export default {
       queryParams: {
         pageNum: 0,
         pageSize: 10,
-      }
+      },
+      tabs: [
+        {
+          label: "角色管理"
+        }
+      ],
+      authRoles: []
+    }
+  },
+  computed: {
+    transferRoles () {
+      const data = []
+      this.authRoles.forEach(item => {
+        data.push({
+          key: item.roleId,
+          label: item.roleName,
+          disabled: false
+        })
+      })
+      return data
     }
   },
   methods: {
@@ -119,6 +147,37 @@ export default {
       this.queryParams.pageSize = pageParam.pageSize
       this._getUsers()
     },
+    _handleRole (row) {
+      this._getAuthRoles(row.appId)
+      this._getOwnRoles(row.appId, row.userId)
+      this.$refs.transfer._handleAdd()
+      
+    },
+    _getAuthRoles (appId) {
+      getRolesWithAppIdAndUserId(appId).then(res => {
+        if (res.code === 0) {
+          this.authRoles = res.data
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    _getOwnRoles (appId, userId) {
+      getRolesWithAppIdAndUserId(appId, userId).then(res => {
+        if (res.code === 0) {
+          const data = []
+          res.data.forEach(item => {
+            data.push(item.roleId)
+          })
+          this.$refs.transfer._handleEdit(data)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    _submitRoleMapping (val) {
+      console.log(val)
+    },
     _remoteSelectFocus () {
       this._remoteSelect()
     },
@@ -135,7 +194,8 @@ export default {
     this._getUsers()
   },
   components: {
-    Table
+    Table,
+    Transfer
   }
 }
 </script>

@@ -43,3 +43,20 @@ export function delRole (roleId) {
     }
   })
 }
+
+export function getRolesWithAppIdAndUserId (appId, userId) {
+  var url = '/role/list'
+  if (appId != undefined && appId != '') {
+    url = url + '/' + appId
+  }
+  if (userId != undefined && userId != '') {
+    url = url + '/' + userId
+  }
+
+  // const data = {}
+  return axios.get(url).then((res) => {
+    if (res.data) {
+      return Promise.resolve(res.data)
+    }
+  })
+}

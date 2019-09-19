@@ -50,16 +50,20 @@
           label="更新日期">
         </el-table-column>
 
-        <el-table-column label="操作" width="150">
+        <el-table-column label="操作" width="250">
           <template slot-scope="scope">
             <el-button
-            size="mini"
-            type="primary"
-            @click="_handleEdit(scope.$index, scope.row)">编辑</el-button>
+              size="mini"
+              type="primary"
+              @click="_handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button
-            size="mini"
-            type="danger"
-            @click="_handleDelete(scope.$index, scope.row)">删除</el-button>
+              size="mini"
+              type="success"
+              @click="_handleRole(scope.$index, scope.row)">角色管理</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="_handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -170,6 +174,9 @@ export default {
       }).then(() => {
         this.$emit('del', JSON.parse(JSON.stringify(row)))
       })
+    },
+    _handleRole (index, row) {
+      this.$emit('editRole', row)
     },
     _handleSizeChange(size) {
       this.pageParam.pageSize = size

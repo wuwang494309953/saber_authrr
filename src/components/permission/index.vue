@@ -41,6 +41,8 @@
       :total="total"
       :options="appOptions"
       @submit="_submit"
+      @edit="_edit"
+      @del="_del"
       @remoteSelect="_remoteSelect">
     </Table>
   </el-card>
@@ -100,6 +102,19 @@ export default {
         this.tableLoading = false
       })
     },
+    _edit (row) {
+      this._remoteSelect()
+    },
+    _del (row) {
+      delRole(row.roleId).then(res => {
+        if (res.code == 0) {
+          this.$message.success(res.msg)
+          this._getPermissions()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    }
   },
   created () {
     this._getPermissions()
