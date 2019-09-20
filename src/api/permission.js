@@ -43,3 +43,20 @@ export function delPermission (userId) {
     }
   })
 }
+
+export function getPermissionsWithAppIdAndUserId (appId, roleId) {
+  var url = '/permission/list'
+  if (appId != undefined && appId != '') {
+    url = url + '/' + appId
+  }
+  if (roleId != undefined && roleId != '') {
+    url = url + '/' + roleId
+  }
+
+  // const data = {}
+  return axios.get(url).then((res) => {
+    if (res.data) {
+      return Promise.resolve(res.data)
+    }
+  })
+}

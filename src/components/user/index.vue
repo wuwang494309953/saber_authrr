@@ -174,7 +174,6 @@ export default {
         roleIds: form.mappingId
       }).then(res => {
         if (res.code == 0) {
-          this._getUsers()
           this.$message.success(res.msg)
         } else {
           this.$message.error(res.msg)

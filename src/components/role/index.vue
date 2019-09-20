@@ -59,7 +59,12 @@
 
     <Transfer
       :tabs="tabs"
-
+      :data="allPermission"
+      :transProps="{
+        key: 'permissionId',
+        label: 'permissionName'
+      }"
+      @submit="_submitPermissionMapping"
       ref="transfer"></Transfer>
   </el-card>
 </template>
@@ -67,6 +72,8 @@
 <script>
 import {getAppInfos} from '@/api/appInfo.js'
 import { getRoles, saveRole, delRole } from '@/api/role.js'
+import { getPermissionsWithAppIdAndUserId } from '@/api/permission.js'
+import { saveRolePermission } from '@/api/rolePermission.js'
 import Table from './Table'
 import Transfer from '@/components/auth/Transfer'
 export default {
@@ -90,6 +97,7 @@ export default {
           label: "资源管理"
         }
       ],
+      allPermission: []
     }
   },
   methods: {
@@ -148,8 +156,43 @@ export default {
       this._getShiros()
     },
     _editAuth (row) {
-      console.log(row)
+      this._getAllPermissions(row.appId)
+      this._getOwnPermissions(row.appId, row.roleId)
       this.$refs.transfer._handleAdd(row.roleId)
+    },
+    _getAllPermissions (appId) {
+      getPermissionsWithAppIdAndUserId(appId).then(res => {
+        if (res.code === 0) {
+          this.allPermission = res.data
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    _getOwnPermissions (appId, roleId) {
+      getPermissionsWithAppIdAndUserId(appId, roleId).then(res => {
+        if (res.code === 0) {
+          const data = []
+          res.data.forEach(item => {
+            data.push(item.permissionId)
+          })
+          this.$refs.transfer._handleEdit(data)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    _submitPermissionMapping (form) {
+      saveRolePermission({
+        roleId: form.id,
+        permissionIds: form.mappingId
+      }).then(res => {
+        if (res.code == 0) {
+          this.$message.success(res.msg)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     }
   },
   created () {
