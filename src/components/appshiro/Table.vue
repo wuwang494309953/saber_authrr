@@ -21,7 +21,11 @@
           label="权限配置"
         >
         </el-table-column>
-  
+         <el-table-column
+          prop="orders"
+          label="排序"
+        >
+        </el-table-column>
         <el-table-column
           prop="createTime"
           :formatter="_dateFormatter"
@@ -84,6 +88,9 @@
         </el-form-item>
         <el-form-item label="权限配置" :label-width="formLabelWidth">
           <el-input v-model="form.shiroAuth" placeholder="请输入权限"></el-input>
+        </el-form-item>
+        <el-form-item label="排序" :label-width="formLabelWidth">
+          <el-input v-model="form.orders" placeholder="请输入顺序"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
