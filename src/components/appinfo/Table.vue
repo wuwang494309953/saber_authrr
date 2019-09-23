@@ -9,11 +9,13 @@
         <el-table-column
           prop="appName"
           label="应用名"
+          width="250"
         >
         </el-table-column>
         <el-table-column
           prop="appSecret"
           label="应用秘钥"
+          width="300"
         >
         </el-table-column>
         <el-table-column
@@ -24,6 +26,7 @@
         <el-table-column
           prop="status"
           label="状态"
+          width="70"
         >
           <template slot-scope="scope">
             <el-tag size="medium" :type="scope.row.status | statusTag">{{ scope.row.status | statusType }}</el-tag>
@@ -32,11 +35,13 @@
         <el-table-column
           prop="createTime"
           :formatter="_dateFormatter"
+          width="150"
           label="创建日期">
         </el-table-column>
         <el-table-column
           prop="updateTime"
           :formatter="_dateFormatter"
+          width="150"
           label="更新日期">
         </el-table-column>
 

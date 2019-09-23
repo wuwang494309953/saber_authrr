@@ -5,7 +5,7 @@
 				<h1>Welcome</h1>
 				<form method="post" class="form">
 					<input type="text" v-model="form.username" placeholder="Account"/>
-					<input type="password" v-model="form.password" @keyup.enter="_submit" placeholder="Password"/>
+					<input type="password" v-model="form.password" @keyup.enter="_submit" placeholder="Password" autocomplete/>
           <el-button type="primary" :loading="isSubmit" @click="_submit">Login</el-button>
 				</form>
 			</div>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { login } from '@/api/login'
 export default {
   data () {
     return {
@@ -39,17 +40,16 @@ export default {
   methods: {
     _submit () {
       this.isSubmit = true
-      this.$router.push('/')
-      // login(this.form).then((res) => {
-      //   if (res.ret) {
-      //     this.isSubmit = false
-      //     this.$router.push('/index')
-      //   } else {
-      //     this._loginFail(res.msg)
-      //   }
-      // }).catch((e) => {
-      //   this._loginFail('发生了一个未知的错误')
-      // })
+      login(this.form).then((res) => {
+        if (res.code == 0) {
+          this.isSubmit = false
+          this.$router.push('/')
+        } else {
+          this._loginFail(res.msg)
+        }
+      }).catch((e) => {
+        this._loginFail('发生了一个未知的错误')
+      })
     },
     _loginFail (message) {
       this.isSubmit = false

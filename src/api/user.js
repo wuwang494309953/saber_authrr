@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
+import { ip1 } from './common'
 
 export function getUsers (params) {
-  const url = '/user/list'
+  const url = ip1 + '/user/list'
 
   // const data = {}
   return axios.get(url, {
@@ -15,7 +16,7 @@ export function getUsers (params) {
 }
 
 export function saveUser (params) {
-  let url = '/user/save'
+  let url = ip1 + '/user/save'
   return axios({
     method: 'post',
     url: url,
@@ -34,7 +35,7 @@ export function saveUser (params) {
 }
 
 export function delUser (userId) {
-  const url = '/user/del/' + userId
+  const url = ip1 + '/user/del/' + userId
 
   // const data = {}
   return axios.post(url).then((res) => {

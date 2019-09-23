@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
+import { ip1 } from './common'
 
 export function getRoles (params) {
-  const url = '/role/list'
+  const url = ip1 + '/role/list'
 
   // const data = {}
   return axios.get(url, {
@@ -15,7 +16,7 @@ export function getRoles (params) {
 }
 
 export function saveRole (params) {
-  let url = '/role/save'
+  let url = ip1 + '/role/save'
   return axios({
     method: 'post',
     url: url,
@@ -34,7 +35,7 @@ export function saveRole (params) {
 }
 
 export function delRole (roleId) {
-  const url = '/role/del/' + roleId
+  const url = ip1 + '/role/del/' + roleId
 
   // const data = {}
   return axios.post(url).then((res) => {
@@ -45,7 +46,7 @@ export function delRole (roleId) {
 }
 
 export function getRolesWithAppIdAndUserId (appId, userId) {
-  var url = '/role/list'
+  var url = ip1 + '/role/list'
   if (appId != undefined && appId != '') {
     url = url + '/' + appId
   }

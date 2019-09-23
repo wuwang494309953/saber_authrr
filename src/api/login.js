@@ -1,9 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
-import { ip1 } from './common'
+import { ip2 } from './common'
 
-export function saveUserRole (params) {
-  let url = ip1 + '/userRole/save'
+export function login (params) {
+  let url = ip2 + '/login/in'
   return axios({
     method: 'post',
     url: url,

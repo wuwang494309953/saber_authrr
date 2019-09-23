@@ -23,7 +23,8 @@
           </el-form>
         </el-col>
         <el-col :span="6" style="text-align: right;">
-            <el-button type="primary" round style="margin-left:30px;" @click="_handleAdd">新增Shiro配置</el-button>
+          <el-button type="primary" round style="margin-left:30px;" @click="_handleAdd">新增Shiro配置</el-button>
+          <el-button type="success" round style="margin-left:30px;" @click="_handleRefreshShiro">刷新Shiro配置</el-button>
         </el-col>
       </el-row>
     </div>
@@ -46,6 +47,7 @@
 <script>
 import {getAppInfos} from '@/api/appInfo.js'
 import { getShiros, saveShiro, delShiro } from '@/api/appShiro.js'
+import { refreshPermission } from '@/api/gatewaySetting.js'
 import Table from './Table'
 export default {
   data () {
@@ -117,6 +119,21 @@ export default {
       this.queryParams.pageNum = pageParam.pageNum
       this.queryParams.pageSize = pageParam.pageSize
       this._getShiros()
+    },
+    _handleRefreshShiro () {
+      refreshPermission().then(res => {
+        if (res.code == 0) {
+          this.$notify({
+            title: 'Shiro设置刷新成功',
+            type: 'success'
+          })
+        } else{
+          this.$notify({
+            title: 'Shiro设置刷新失败',
+            type: 'error'
+          })
+        }
+      })
     }
   },
   created () {

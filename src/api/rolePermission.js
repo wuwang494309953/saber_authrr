@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
+import { ip1 } from './common'
 
 export function saveRolePermission (params) {
-  let url = '/rolePermission/save'
+  let url = ip1 + '/rolePermission/save'
   return axios({
     method: 'post',
     url: url,

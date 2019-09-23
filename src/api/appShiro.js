@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
+import { ip1 } from './common'
 
 export function getShiros (params) {
-  const url = '/shiro/setting/list'
+  const url = ip1 + '/shiro/setting/list'
 
   // const data = {}
   return axios.get(url, {
@@ -15,7 +16,7 @@ export function getShiros (params) {
 }
 
 export function saveShiro (params) {
-  let url = '/shiro/setting/save'
+  let url = ip1 + '/shiro/setting/save'
   return axios({
     method: 'post',
     url: url,
@@ -34,7 +35,7 @@ export function saveShiro (params) {
 }
 
 export function delShiro (shiroId) {
-  const url = '/shiro/setting/del/' + shiroId
+  const url = ip1 + '/shiro/setting/del/' + shiroId
 
   // const data = {}
   return axios.post(url).then((res) => {

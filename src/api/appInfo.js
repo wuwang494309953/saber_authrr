@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
+import { ip1 } from './common'
 
 export function getAppInfos (params) {
-  const url = '/app/info/list'
+  const url = ip1 + '/app/info/list'
 
   // const data = {}
   return axios.get(url, {
@@ -15,7 +16,7 @@ export function getAppInfos (params) {
 }
 
 export function saveAppInfo (params) {
-  let url = '/app/info/save'
+  let url = ip1 + '/app/info/save'
   return axios({
     method: 'post',
     url: url,
@@ -34,7 +35,7 @@ export function saveAppInfo (params) {
 }
 
 export function delAppInfo (appId) {
-  const url = '/app/info/del/' + appId
+  const url = ip1 + '/app/info/del/' + appId
 
   // const data = {}
   return axios.post(url).then((res) => {

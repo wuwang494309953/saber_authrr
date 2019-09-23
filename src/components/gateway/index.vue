@@ -23,7 +23,8 @@
               </el-form>
           </el-col>
           <el-col :span="6" style="text-align: right;">
-              <el-button type="primary" round style="margin-left:30px;" @click="_handleAdd">新增网关配置</el-button>
+            <el-button type="primary" round style="margin-left:30px;" @click="_handleAdd">新增网关配置</el-button>
+            <el-button type="success" round style="margin-left:30px;" @click="_handleRefreshGateway">刷新网关配置</el-button>
           </el-col>
       </el-row>
 
@@ -47,6 +48,7 @@
 <script>
 import {getAppInfos} from '@/api/appInfo.js'
 import { getGateWays, saveGateway, delGateWay } from '@/api/appGateway.js'
+import { refreshRouter } from '@/api/gatewaySetting.js'
 import Table from './Table'
 export default {
   data () {
@@ -118,6 +120,21 @@ export default {
       this.queryParams.pageNum = pageParam.pageNum
       this.queryParams.pageSize = pageParam.pageSize
       this._getGateWays()
+    },
+    _handleRefreshGateway () {
+      refreshRouter().then(res => {
+        if (res.code == 0) {
+          this.$notify({
+            title: '网关设置刷新成功',
+            type: 'success'
+          })
+        } else{
+          this.$notify({
+            title: '网关设置刷新失败',
+            type: 'error'
+          })
+        }
+      })
     }
   },
   created () {

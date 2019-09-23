@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
+import { ip1 } from './common'
 
 export function getGateWays (params) {
-  const url = '/gateway/setting/list'
+  const url = ip1 + '/gateway/setting/list'
 
   // const data = {}
   return axios.get(url, {
@@ -15,7 +16,7 @@ export function getGateWays (params) {
 }
 
 export function saveGateway (params) {
-  let url = '/gateway/setting/save'
+  let url = ip1 + '/gateway/setting/save'
   return axios({
     method: 'post',
     url: url,
@@ -34,7 +35,7 @@ export function saveGateway (params) {
 }
 
 export function delGateWay (appId) {
-  const url = '/gateway/setting/del/' + appId
+  const url = ip1 + '/gateway/setting/del/' + appId
 
   // const data = {}
   return axios.post(url).then((res) => {

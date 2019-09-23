@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
+import { ip1 } from './common'
 
 export function getPermissions (params) {
-  const url = '/permission/list'
+  const url = ip1 + '/permission/list'
 
   // const data = {}
   return axios.get(url, {
@@ -15,7 +16,7 @@ export function getPermissions (params) {
 }
 
 export function savePermission (params) {
-  let url = '/permission/save'
+  let url = ip1 + '/permission/save'
   return axios({
     method: 'post',
     url: url,
@@ -34,7 +35,7 @@ export function savePermission (params) {
 }
 
 export function delPermission (userId) {
-  const url = '/permission/del/' + userId
+  const url = ip1 + '/permission/del/' + userId
 
   // const data = {}
   return axios.post(url).then((res) => {
@@ -45,7 +46,7 @@ export function delPermission (userId) {
 }
 
 export function getPermissionsWithAppIdAndUserId (appId, roleId) {
-  var url = '/permission/list'
+  var url = ip1 + '/permission/list'
   if (appId != undefined && appId != '') {
     url = url + '/' + appId
   }
