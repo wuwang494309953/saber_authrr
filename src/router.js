@@ -25,6 +25,7 @@ export default new Router({
       name: 'Gateway',
       component: Layout,
       redirect: '/gateway/index',
+      meta: { title: 'App配置' },
       children: [
         {
           path: 'index',
@@ -51,6 +52,7 @@ export default new Router({
       name: 'Auth',
       component: Layout,
       redirect: '/auth/user',
+      meta: { title: '权限管理' },
       children: [
         {
           path: 'user',

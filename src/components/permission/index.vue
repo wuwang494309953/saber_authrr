@@ -13,6 +13,11 @@
                 @focus="_remoteSelectFocus"
                 @change="_getPermissions">
                 <el-option
+                  key="0"
+                  label="未选择"
+                  value="">
+                </el-option>
+                <el-option
                   v-for="item in appOptions"
                   :key="item.appId"
                   :label="item.appName"
@@ -102,11 +107,11 @@ export default {
         this.tableLoading = false
       })
     },
-    _edit (row) {
+    _edit () {
       this._remoteSelect()
     },
     _del (row) {
-      delRole(row.roleId).then(res => {
+      delPermission(row.permissionId).then(res => {
         if (res.code == 0) {
           this.$message.success(res.msg)
           this._getPermissions()

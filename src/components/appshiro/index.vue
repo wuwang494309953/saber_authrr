@@ -13,6 +13,11 @@
                 @focus="_remoteSelectFocus"
                 @change="_getShiros">
                 <el-option
+                  key="0"
+                  label="未选择"
+                  value="">
+                </el-option>
+                <el-option
                   v-for="item in appOptions"
                   :key="item.appId"
                   :label="item.appName"
@@ -100,7 +105,7 @@ export default {
         this.tableLoading = false
       })
     },
-    _edit (row) {
+    _edit () {
       this._remoteSelect()
     },
     _del (row) {

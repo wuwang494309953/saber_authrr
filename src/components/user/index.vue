@@ -13,6 +13,12 @@
                 @focus="_remoteSelectFocus"
                 @change="_getUsers">
                 <el-option
+                  key="0"
+                  label="未选择"
+                  value=""
+                >
+                </el-option>
+                <el-option
                   v-for="item in appOptions"
                   :key="item.appId"
                   :label="item.appName"
@@ -131,7 +137,7 @@ export default {
         }
       })
     },
-    _edit (row) {
+    _edit () {
       this._remoteSelect()
     },
     _refresh (pageParam) {
