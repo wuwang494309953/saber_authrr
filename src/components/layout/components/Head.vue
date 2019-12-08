@@ -43,7 +43,6 @@ export default {
           path: e.path
         })
       });
-      console.log(paths)
       return paths
     }
   }
