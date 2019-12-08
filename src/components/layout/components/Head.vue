@@ -3,7 +3,9 @@
     <el-row style="height: 100%;">
       <el-col :span="12" style="height: 100%; ">
         <div style="display: flex; align-items: center; height: 100%;">
-          {{activePath}}
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item v-for="path in activePath" :key="path.path" :to="{ path: path.path }">{{path.title}}</el-breadcrumb-item>
+          </el-breadcrumb>
         </div>
       </el-col>
       <el-col :span="12" style="height: 100%;">
@@ -34,12 +36,15 @@ export default {
   computed: {
     activePath() {
       const route = this.$route
-      console.log(route.matched[0].meta, route.matched[1].meta)
-      const { meta, path } = route
-      if (meta.activeMenu) {
-        return meta.activeMenu
-      }
-      return path
+      var paths = []
+      route.matched.forEach(e => {
+        paths.push({
+          title: e.meta.title,
+          path: e.path
+        })
+      });
+      console.log(paths)
+      return paths
     }
   }
 }
