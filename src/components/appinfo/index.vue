@@ -43,6 +43,7 @@
 import {getAppInfos, saveAppInfo, delAppInfo} from '@/api/appInfo.js'
 import Table from './Table'
 export default {
+  name: 'AppInfo',
   data () {
     return {
       isEdit: false,

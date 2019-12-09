@@ -84,6 +84,7 @@ import { getUsers, saveUser, delUser } from '@/api/user.js'
 import { getRolesWithAppIdAndUserId } from '@/api/role.js'
 import { saveUserRole } from '@/api/userRole.js'
 export default {
+  name: 'User',
   data () {
     return {
       appOptions: [],

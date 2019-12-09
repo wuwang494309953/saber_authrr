@@ -82,6 +82,7 @@ import { saveRolePermission } from '@/api/rolePermission.js'
 import Table from './Table'
 import Transfer from '@/components/auth/Transfer'
 export default {
+  name: 'Role',
   data () {
     return {
       tableLoading: false,

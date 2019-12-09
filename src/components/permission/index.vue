@@ -58,6 +58,7 @@ import {getAppInfos} from '@/api/appInfo.js'
 import { getPermissions, savePermission, delPermission } from '@/api/permission.js'
 import Table from './Table'
 export default {
+  name: 'Permission',
   data () {
     return {
       tableLoading: false,

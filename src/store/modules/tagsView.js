@@ -13,6 +13,12 @@ const mutations = {
       })
     )
   },
+  ADD_CACHED_VIEW: (state, view) => {
+    if (state.cachedViews.includes(view.name)) return
+    if (!view.meta.noCache) {
+      state.cachedViews.push(view.name)
+    }
+  },
   DEL_VISITED_VIEW: (state, view) => {
     for (const [i, v] of state.visitedViews.entries()) {
       if (v.path === view.path) {
@@ -20,12 +26,17 @@ const mutations = {
         break
       }
     }
-  }
+  },
+  DEL_CACHED_VIEW: (state, view) => {
+    const index = state.cachedViews.indexOf(view.name)
+    index > -1 && state.cachedViews.splice(index, 1)
+  },
 }
 
 const actions = {
   addView({ dispatch }, view) {
     dispatch('addVisitedView', view)
+    dispatch('addCachedView', view)
   },
   addVisitedView({ commit }, view) {
     commit('ADD_VISITED_VIEW', view)
@@ -33,8 +44,10 @@ const actions = {
   delView({ dispatch, state }, view) {
     return new Promise(resolve => {
       dispatch('delVisitedView', view)
+      dispatch('delCachedView', view)
       resolve({
-        visitedViews: [...state.visitedViews]
+        visitedViews: [...state.visitedViews],
+        cachedViews: [...state.cachedViews]
       })
     })
   },
@@ -43,7 +56,16 @@ const actions = {
       commit('DEL_VISITED_VIEW', view)
       resolve([...state.visitedViews])
     })
-  }
+  },
+  addCachedView({ commit }, view) {
+    commit('ADD_CACHED_VIEW', view)
+  },
+  delCachedView({ commit, state }, view) {
+    return new Promise(resolve => {
+      commit('DEL_CACHED_VIEW', view)
+      resolve([...state.cachedViews])
+    })
+  },
 }
 
 export default {

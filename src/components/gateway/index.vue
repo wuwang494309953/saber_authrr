@@ -56,6 +56,7 @@ import { getGateWays, saveGateway, delGateWay } from '@/api/appGateway.js'
 import { refreshRouter } from '@/api/gatewaySetting.js'
 import Table from './Table'
 export default {
+  name: 'Setting',
   data () {
     return {
       tableLoading: false,

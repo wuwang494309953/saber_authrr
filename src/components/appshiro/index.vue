@@ -55,6 +55,7 @@ import { getShiros, saveShiro, delShiro } from '@/api/appShiro.js'
 import { refreshPermission } from '@/api/gatewaySetting.js'
 import Table from './Table'
 export default {
+  name: 'Shrio',
   data () {
     return {
       tableLoading: false,
